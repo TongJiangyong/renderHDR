@@ -446,6 +446,7 @@ void D3D11Renderer::D3D11Renderer::Begin()
 	}
 }
 
+
 void D3D11Renderer::Copy(PixelFrame* frame)
 {
 	if (!d3d11_device_) {
