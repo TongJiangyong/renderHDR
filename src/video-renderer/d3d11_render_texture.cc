@@ -211,39 +211,6 @@ bool D3D11RenderTexture::InitVertexShader()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
-#if 0
-	ID3DBlob* vs_blob = nullptr;
-	bool result = CompileShaderFromFile(L"d3d11_vs.hlsl", "main", "vs_4_0", &vs_blob);
-	if (!result) {
-		LOG("CompileShaderFromFile(d3d11_vs.hlsl) failed.");
-		return false;
-	}
-
-	hr = d3d11_device_->CreateVertexShader(
-		vs_blob->GetBufferPointer(),
-		vs_blob->GetBufferSize(),
-		NULL,
-		&vertex_shader_
-	);
-	if (FAILED(hr)) {
-		vs_blob->Release();
-		return false;
-	}
-
-	hr = d3d11_device_->CreateInputLayout(
-		layout,
-		ARRAYSIZE(layout),
-		vs_blob->GetBufferPointer(),
-		vs_blob->GetBufferSize(),
-		&vertex_layout_
-	);
-	vs_blob->Release();
-
-	if (FAILED(hr)) {
-		LOG("ID3D11Device::CreateInputLayout() failed, %x.", hr);
-		return false;
-	}
-#else
 	hr = d3d11_device_->CreateVertexShader(
 		shader_d3d11_vertex,
 		sizeof(shader_d3d11_vertex),
@@ -263,7 +230,6 @@ bool D3D11RenderTexture::InitVertexShader()
 		LOG("ID3D11Device::CreateInputLayout() failed, %x.", hr);
 		return false;
 	}
-#endif
 
 	D3D11_BUFFER_DESC vertex_buffer_desc;
 	D3D11_SUBRESOURCE_DATA vertex_buffer_data;
@@ -314,26 +280,11 @@ bool D3D11RenderTexture::InitPixelShader(CONST WCHAR* pathname, const BYTE* pixe
 	HRESULT hr = S_OK;
 	ID3DBlob* ps_blob = nullptr;
 
-#if 0
-	bool result = CompileShaderFromFile(pathname, "main", "ps_4_0", &ps_blob);
-	if (!result) {
-		LOG("CompileShaderFromFile() failed. \n");
-		return false;
-	}
-
-	hr = d3d11_device_->CreatePixelShader(
-		ps_blob->GetBufferPointer(),
-		ps_blob->GetBufferSize(),
-		nullptr,
-		&pixel_shader_);
-	ps_blob->Release();
-#else 
 	hr = d3d11_device_->CreatePixelShader(
 		pixel_shader,
 		pixel_shader_size,
 		nullptr,
 		&pixel_shader_);
-#endif
 	if (FAILED(hr)) {
 		LOG("ID3D11Device::CreatePixelShader() failed, %x  \n", hr);
 		return false;
