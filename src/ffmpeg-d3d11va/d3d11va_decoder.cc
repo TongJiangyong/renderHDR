@@ -2,8 +2,7 @@
 #include "av_log.h"
 
 //extern "C" {
-#include "libavutil/hwcontext.h"
-#include "libavutil/hwcontext_d3d11va.h"
+
 //}
 
 static enum AVPixelFormat get_d3d11va_hw_format(AVCodecContext* avctx, const enum AVPixelFormat* pix_fmts)
@@ -118,7 +117,15 @@ bool AVDecoder::Init(AVStream* stream, void* d3d11_device)
 	}
 	else {
 		 av_hwdevice_ctx_create(&device_buffer_, hw_type, NULL, NULL, 0);
+		 codec_context_->opaque = device_buffer_;
+		 AVHWDeviceContext* hw_device_ctx = (AVHWDeviceContext*)device_buffer_->data;
+		 AVD3D11VADeviceContext* hw_d3d11_dev_ctx = (AVD3D11VADeviceContext*)hw_device_ctx->hwctx;
+
 		 codec_context_->hw_device_ctx = av_buffer_ref(device_buffer_);
+		 decoder_device_ = hw_d3d11_dev_ctx->device;
+		 decoder_device_context_ = hw_d3d11_dev_ctx->device_context;
+		 decoder_video_device_ = hw_d3d11_dev_ctx->video_device;
+		 decoder_video_context_ = hw_d3d11_dev_ctx->video_context;
 	}
 
 	codec_context_->get_format = get_d3d11va_hw_format;

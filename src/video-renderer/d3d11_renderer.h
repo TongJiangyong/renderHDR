@@ -12,7 +12,7 @@ public:
 	D3D11Renderer();
 	virtual ~D3D11Renderer();
 
-	virtual bool Init(HWND hwnd);
+	virtual bool Init(HWND hwnd, void* device, void* deviceContext);
 	virtual void Destroy();
 
 	virtual bool Resize();
@@ -26,7 +26,7 @@ public:
 	virtual void SetSharpen(float unsharp);
 
 protected:
-	bool InitDevice();
+	bool InitDevice(void * device,void* deviceContext);
 	bool CreateRenderer();
 	bool CreateTexture(int width, int height, PixelFormat format);
 	virtual void Begin();

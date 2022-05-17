@@ -10,7 +10,10 @@ extern "C" {
 #include "libavutil/avutil.h"
 #include "libavutil/hwcontext.h"
 #include "libavutil/pixdesc.h"
+
 }
+#include "libavutil/hwcontext.h"
+#include "libavutil/hwcontext_d3d11va.h"
 
 class AVDecoder
 {
@@ -41,5 +44,11 @@ private:
 	int finished_ = -1;
 	AVRational start_pts_tb_;
 	AVRational next_pts_tb_;
+
+public:
+    ID3D11Device* decoder_device_ = nullptr;
+    ID3D11DeviceContext* decoder_device_context_ = nullptr;
+    ID3D11VideoDevice* decoder_video_device_ = nullptr;
+    ID3D11VideoContext* decoder_video_context_ = nullptr;
 };
 

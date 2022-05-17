@@ -30,13 +30,13 @@ D3D11Renderer::~D3D11Renderer()
 	Destroy();
 }
 
-bool D3D11Renderer::Init(HWND hwnd)
+bool D3D11Renderer::Init(HWND hwnd, void *device, void *deviceContext)
 {
 	std::lock_guard<std::mutex> locker(mutex_);
 
 	wnd_ = hwnd;
 
-	if (!InitDevice()) {
+	if (!InitDevice(device, deviceContext)) {
 		return false;
 	}
 
@@ -125,7 +125,7 @@ bool D3D11Renderer::Resize()
 	);
 	if (hr == DXGI_ERROR_DEVICE_REMOVED) {
 		Destroy();
-		return Init(wnd_);
+		return Init(wnd_,nullptr,nullptr);
 	}
 	else if (FAILED(hr)) {
 		return false;
@@ -175,7 +175,7 @@ void D3D11Renderer::SetSharpen(float unsharp)
 	unsharp_ = unsharp;
 }
 
-bool D3D11Renderer::InitDevice()
+bool D3D11Renderer::InitDevice(void* device, void* deviceContext)
 {
 	RECT rect;
 	if (!GetClientRect(wnd_, &rect)) {
@@ -210,25 +210,33 @@ bool D3D11Renderer::InitDevice()
 	IDXGIFactory1* dxgi_factory = NULL;
 	ID3D10Multithread* multithread = NULL;
 
-	for (UINT index = 0; index < num_driver_types; index++) {
-		driver_type_ = driver_types[index];
-		hr = D3D11CreateDevice(
-			nullptr, 
-			driver_type_, 
-			nullptr,
-			device_flags,
-			feature_levels, 
-			num_feature_levels,
-			D3D11_SDK_VERSION, 
-			&d3d11_device_, 
-			&feature_level_, 
-			&d3d11_context_
-		);
+	if (!device) {
+		for (UINT index = 0; index < num_driver_types; index++) {
+			driver_type_ = driver_types[index];
+			hr = D3D11CreateDevice(
+				nullptr,
+				driver_type_,
+				nullptr,
+				device_flags,
+				feature_levels,
+				num_feature_levels,
+				D3D11_SDK_VERSION,
+				&d3d11_device_,
+				&feature_level_,
+				&d3d11_context_
+			);
 
-		if (SUCCEEDED(hr)) {
-			break;
+			if (SUCCEEDED(hr)) {
+				break;
+			}
 		}
 	}
+	else {
+
+		d3d11_device_ = (ID3D11Device*)device;
+		d3d11_context_ = (ID3D11DeviceContext*)deviceContext;
+	}
+
 
 	if (FAILED(hr)) {
 		LOG("D3D11CreateDevice() failed, %x \n", hr);
@@ -521,7 +529,7 @@ void D3D11Renderer::End()
 	if (FAILED(hr) && hr != DXGI_ERROR_WAS_STILL_DRAWING) {
 		if (hr == DXGI_ERROR_DEVICE_REMOVED) {
 			Destroy();
-			Init(wnd_);
+			Init(wnd_,nullptr,nullptr);
 		}
 		else {
 			return ;

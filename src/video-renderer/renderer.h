@@ -54,7 +54,7 @@ public:
 	Renderer() {};
 	virtual ~Renderer() {};
 
-	virtual bool Init(HWND hwnd) = 0;
+	virtual bool Init(HWND hwnd, void* device, void* deviceContext) = 0;
 	virtual void Destroy() = 0;
 
 	virtual bool Resize() = 0;

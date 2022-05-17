@@ -25,9 +25,25 @@ int main(int argc, char** argv)
 	if (!window.Init(100, 100, 1920 * 4 / 5, 1080 * 4 / 5)) {
 		return -1;
 	}
+	bool abort_request = false;
+	std::string pathname = "piper.h264";
+	AVDemuxer demuxer;
+	AVDecoder decoder;
+	AVStream* video_stream = nullptr;
+
+	if (!demuxer.Open(pathname)) {
+		abort_request = true;
+	}
+
+	video_stream = demuxer.GetVideoStream();
+
+	if (!decoder.Init(video_stream, nullptr)) {
+		abort_request = true;
+	}
 
 	D3D11VARenderer renderer;
-	if (!renderer.Init(window.GetHandle())) {
+	if (!renderer.Init(window.GetHandle(),nullptr, nullptr)) {
+	//if (!renderer.Init(window.GetHandle(), decoder.decoder_device_, decoder.decoder_device_context_)) {
 		return -2;
 	}
 
@@ -36,23 +52,10 @@ int main(int argc, char** argv)
 	int original_width = 0, original_height = 0;
 	GetWindowSize(window.GetHandle(), original_width, original_height);
 
-	bool abort_request = false;
-	std::string pathname = "piper.h264";
 
-	std::thread decode_thread([&abort_request, &renderer, pathname] {
-		AVDemuxer demuxer;
-		AVDecoder decoder;
-		AVStream* video_stream = nullptr;
 
-		if (!demuxer.Open(pathname)) {
-			abort_request = true;
-		}
+	std::thread decode_thread([&] {
 
-		video_stream = demuxer.GetVideoStream();
-
-		if (!decoder.Init(video_stream, renderer.GetD3D11Device())) {
-			abort_request = true;
-		}
 
 		AVPacket av_packet1, * av_packet = &av_packet1;
 		AVFrame* av_frame = av_frame_alloc();
@@ -66,7 +69,7 @@ int main(int argc, char** argv)
 					while (ret >= 0) {
 						ret = decoder.Recv(av_frame);
 						if (ret >= 0) {
-							renderer.RenderFrame(av_frame);
+							//renderer.RenderFrame(av_frame);
 						}					
 					}
 					Sleep(33);
