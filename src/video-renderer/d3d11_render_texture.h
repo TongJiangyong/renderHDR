@@ -38,10 +38,12 @@ public:
 	ID3D11RenderTargetView* GetNV12UVRenderTargetView();
 	ID3D11ShaderResourceView* GetNV12YShaderResourceView();
 	ID3D11ShaderResourceView* GetNV12UVShaderResourceView();
-
+public:
+	ID3D11Texture2D* access_texture_ = NULL;
 private:
 	ID3D11Device*               d3d11_device_     = NULL;
 	ID3D11DeviceContext*        d3d11_context_    = NULL;
+
 
 	ID3D11Texture2D*            texture_          = NULL;
 	ID3D11ShaderResourceView*   texture_srv_      = NULL;

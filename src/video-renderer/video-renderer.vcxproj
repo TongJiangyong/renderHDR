@@ -31,15 +31,6 @@
     <ClInclude Include="d3d11_yuv_to_rgb_converter.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="renderer.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_nv12_bt601.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_nv12_bt709.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_pixel.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_rgb_to_chroma420.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_rgb_to_yuv420.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_vertex.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_yuv_bt601.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_yuv_bt709.h" />
-    <ClInclude Include="shader\d3d11\shader_d3d11_yuv_to_rgb.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\d3d11\d3d11_nv12_bt601.hlsl">

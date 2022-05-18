@@ -26,9 +26,9 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	bool abort_request = false;
-	std::string pathname = "piper.h264";
+	//std::string pathname = "piper.h264";
 	//std::string pathname = "D://movie/video-h265.mkv";
-	//std::string pathname = "D://movie/hdr_video/video/HDR10.mp4";
+	std::string pathname = "D://movie/hdr_video/video/HDR10.mp4";
 	AVDemuxer demuxer;
 	AVDecoder decoder;
 	AVStream* video_stream = nullptr;
@@ -39,13 +39,13 @@ int main(int argc, char** argv)
 
 	video_stream = demuxer.GetVideoStream();
 
-	if (!decoder.Init(video_stream, nullptr)) {
+	if (!decoder.Init(video_stream, nullptr,false)) {
 		abort_request = true;
 	}
 
 	D3D11VARenderer renderer;
-	//if (!renderer.Init(window.GetHandle(),nullptr, nullptr)) {
-	if (!renderer.Init(window.GetHandle(), decoder.decoder_device_, decoder.decoder_device_context_)) {
+	if (!renderer.Init(window.GetHandle(),nullptr, nullptr)) {
+	//if (!renderer.Init(window.GetHandle(), decoder.decoder_device_, decoder.decoder_device_context_)) {
 		return -2;
 	}
 

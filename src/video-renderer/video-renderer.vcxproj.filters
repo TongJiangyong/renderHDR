@@ -43,33 +43,6 @@
     <ClInclude Include="d3d11_render_texture.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_vertex.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_nv12_bt601.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_nv12_bt709.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_yuv_bt601.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_yuv_bt709.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_pixel.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_rgb_to_chroma420.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_rgb_to_yuv420.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="shader\d3d11\shader_d3d11_yuv_to_rgb.h">
-      <Filter>源文件\shader\d3d11</Filter>
-    </ClInclude>
     <ClInclude Include="d3d11_rgb_to_yuv_converter.h">
       <Filter>源文件</Filter>
     </ClInclude>
