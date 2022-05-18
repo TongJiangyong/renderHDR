@@ -128,7 +128,7 @@ bool AVDecoder::Init(AVStream* stream, void* d3d11_device, bool is_hw_decoder)
 			decoder_video_context_ = hw_d3d11_dev_ctx->video_context;
 		}
 
-		codec_context_->get_format = get_d3d11va_hw_format;
+		// codec_context_->get_format = get_d3d11va_hw_format;
 	}
 	else {
 		codec_context_->pix_fmt = AV_PIX_FMT_NV12;

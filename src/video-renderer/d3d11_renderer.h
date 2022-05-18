@@ -28,7 +28,7 @@ public:
 protected:
 	bool InitDevice(void * device,void* deviceContext);
 	bool CreateRenderer();
-	bool CreateTexture(int width, int height, PixelFormat format);
+	bool CreateTexture(int width, int height, PixelFormat format, bool is_texture);
 	virtual void Begin();
 	virtual void Copy(PixelFrame* frame);
 	virtual void Process();

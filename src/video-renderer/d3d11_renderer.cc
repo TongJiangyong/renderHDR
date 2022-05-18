@@ -149,7 +149,7 @@ void D3D11Renderer::Render(PixelFrame* frame)
 	if (pixel_format_ != frame->format ||
 		width_ != frame->width ||
 		height_ != frame->height) {
-		if (!CreateTexture(frame->width, frame->height, frame->format)) {
+		if (!CreateTexture(frame->width, frame->height, frame->format,true)) {
 			return;
 		}
 	}
@@ -394,7 +394,7 @@ bool D3D11Renderer::CreateRenderer()
 	return true;
 }
 
-bool D3D11Renderer::CreateTexture(int width, int height, PixelFormat format)
+bool D3D11Renderer::CreateTexture(int width, int height, PixelFormat format, bool is_texture)
 {
 	if (!d3d11_device_) {
 		return false;
@@ -404,9 +404,15 @@ bool D3D11Renderer::CreateTexture(int width, int height, PixelFormat format)
 		input_textures_[i].reset(new D3D11RenderTexture(d3d11_device_));
 	}
 
-	D3D11_USAGE usage = D3D11_USAGE_DYNAMIC;
+	D3D11_USAGE usage = D3D11_USAGE_DEFAULT;
+	UINT cpu_flags = 0;
+	if (is_texture) {
+		usage = D3D11_USAGE_DYNAMIC;
+		cpu_flags    = D3D11_CPU_ACCESS_WRITE;
+	}
 	UINT bind_flags   = D3D11_BIND_SHADER_RESOURCE;
-	UINT cpu_flags    = D3D11_CPU_ACCESS_WRITE;
+
+
 	UINT half_width   = (width + 1) / 2;
 	UINT half_height  = (height + 1) / 2;
 

@@ -103,24 +103,6 @@ bool D3D11RenderTexture::InitTexture(UINT width, UINT height, DXGI_FORMAT format
 		return false;
 	}
 
-	/*****创建copy的texutre***/
-	D3D11_TEXTURE2D_DESC desc;
-
-	desc.Width = width;
-	desc.Height = height;
-	desc.Format = format;
-	desc.ArraySize = 1;
-	desc.BindFlags = 0;
-	desc.MiscFlags = 0;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.MipLevels = 1;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
-	desc.Usage = D3D11_USAGE_STAGING;
-
-	d3d11_device_->CreateTexture2D(&desc, nullptr, &access_texture_);
-		/*****创建copy的texutre***/
-
 
 	D3D11_RENDER_TARGET_VIEW_DESC rtv_desc;
 	D3D11_SHADER_RESOURCE_VIEW_DESC rsv_desc;
